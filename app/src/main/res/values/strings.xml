@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">ProjectManager</string>
+    <string name="app_name_space">Project Manager</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up_link"><u>Sign Up</u></string>
     <string name="sign_in_link"><u>Sign In</u></string>
+    <string name="first_name_input_hint">First Name</string>
+    <string name="last_name_input_hint">Last Name</string>
     <string name="email_input_hint">Email</string>
     <string name="password_input_hint">Password</string>
+    <string name="confirm_password_input_hint">Confirm Password</string>
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="already_have_an_account">Already have an account?</string>
 </resources>
