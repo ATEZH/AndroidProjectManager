@@ -1,4 +1,7 @@
 package com.up.projectmanager
+import kotlinx.serialization.Serializable
 
-data class User(val name: String,
+@Serializable
+data class User(val firstName: String,
+                val lastName: String,
                 val email: String)

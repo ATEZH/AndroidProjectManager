@@ -1,12 +1,16 @@
 package com.up.projectmanager
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class SignUpActivity  : AppCompatActivity() {
 
@@ -30,8 +34,28 @@ class SignUpActivity  : AppCompatActivity() {
         signUpButton = findViewById(R.id.sign_up_button)
 
         signUpButton.setOnClickListener {
-            validateForm()
+            if (validateForm()) {
+                signUp()
+                val myIntent = Intent(this, SignInActivity::class.java)
+                myIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(myIntent)
+            }
         }
+    }
+
+    fun signUp() {
+        val text = "Signed up successfully!"
+        val duration = Toast.LENGTH_SHORT
+        val toast = Toast.makeText(this, text, duration)
+        toast.show()
+        val prefs = getSharedPreferences(
+            "ProjectManager",
+            Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val user = User(firstNameInput.text.toString(), lastNameInput.text.toString(), emailInput.text.toString())
+        val userSer = Json.encodeToString(user)
+        editor.putString("user", userSer)
+        editor.apply()
     }
 
     fun loadSignInLayout(v: View) {
@@ -42,11 +66,10 @@ class SignUpActivity  : AppCompatActivity() {
 
     fun validateForm(): Boolean {
         val validator = FormValidation()
-        var valid = validator.validateName(firstNameInput)
-        valid = validator.validateName(lastNameInput)
-        valid = validator.validateEmail(emailInput)
-        valid = validator.validatePassword(passwordInput)
-        valid = validator.passwordMatches(passwordInput, confirmPasswordInput)
-        return valid
+        return validator.validateName(firstNameInput) and
+                validator.validateName(lastNameInput) and
+                validator.validateEmail(emailInput) and
+                validator.validatePassword(passwordInput) and
+                validator.passwordMatches(passwordInput, confirmPasswordInput)
     }
 }

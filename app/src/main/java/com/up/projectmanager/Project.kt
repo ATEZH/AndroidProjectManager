@@ -1,19 +1,13 @@
 package com.up.projectmanager
 
+import kotlinx.serialization.Serializable
 import java.util.*
-/***
- *
- * name
- * description
- * createdOn
- * deadline
- * tasks
- * projectLead
- * projectMembers
- *
- */
-data class Project(val name: String,
+
+@Serializable
+data class Project(val id: String,
+                   val name: String,
                    val description: String,
-                   val createdOn: Date,
-                   val deadline: Date,
+                   val createdOn: String,
+                   val deadline: String,
+                   val members: List<List<String>>,
                    val tasks: List<Task>)
