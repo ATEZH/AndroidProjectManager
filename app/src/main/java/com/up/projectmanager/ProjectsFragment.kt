@@ -1,4 +1,3 @@
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scrollviewui.ProjectAdapter
 import com.up.projectmanager.*
+import com.up.projectmanager.data.project.Project
 import kotlinx.serialization.json.Json
 
 class ProjectsFragment: Fragment() {

@@ -52,7 +52,7 @@ class FormValidation {
         val inputText1 = input1.text.toString().trim()
         val inputText2 = input2.text.toString().trim()
         if (inputText1 != inputText2) {
-            input2.error = "Password doesn't match"
+            input1.error = "Password doesn't match"
             return false
         }
         return true

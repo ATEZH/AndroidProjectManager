@@ -1,5 +1,8 @@
-package com.up.projectmanager
+package com.up.projectmanager.data.project
 
+import com.up.projectmanager.Task
+import com.up.projectmanager.User
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.util.*
 

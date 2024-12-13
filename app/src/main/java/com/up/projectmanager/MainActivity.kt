@@ -11,9 +11,10 @@ import kotlinx.serialization.json.Json
 import android.util.Log
 import android.content.ContentValues.TAG
 import android.widget.Button
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.up.projectmanager.signin.SignInActivity
+import com.up.projectmanager.signup.SignUpActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,21 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        val prefs = getSharedPreferences(
-            "ProjectManager",
-            Context.MODE_PRIVATE)
-        if (prefs.getBoolean("signedIn", false)) {
-            val userSerialized = prefs.getString("user", "null")
-            user = userSerialized?.let { Json.decodeFromString(it) }!!
-            Log.d(TAG, userSerialized)
-        } else if (!prefs.getBoolean("signedUp", false)) {
-            goToSignUpPage()
-        } else if (!prefs.getBoolean("staySignedIn", false)) {
-            goToSignInPage()
-        } else {
-            goToSignInPage(true)
-        }
 
         setContentView(R.layout.activity_main)
         loadFragment(ProjectsFragment())
@@ -55,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.settings -> {
-                    loadFragment(SettingsFragment(user))
+                    loadFragment(SettingsFragment())
                     true
                 }
                 else -> {
@@ -71,19 +57,6 @@ class MainActivity : AppCompatActivity() {
         transaction.setReorderingAllowed(true)
         transaction.replace(R.id.container, fragment)
         transaction.commit()
-    }
-
-    fun goToSignInPage(autoSignIn: Boolean = false) {
-        val intent = Intent(this, SignInActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        intent.putExtra("AUTO_SIGN_IN", autoSignIn)
-        startActivity(intent)
-    }
-
-    fun goToSignUpPage() {
-        val intent = Intent(this, SignUpActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
     }
 
     fun goToCreateProject() {

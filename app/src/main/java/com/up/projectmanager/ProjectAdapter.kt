@@ -4,17 +4,14 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.LinearProgressIndicator
-import com.up.projectmanager.Project
-import com.up.projectmanager.ProjectActivity
+import com.up.projectmanager.data.project.Project
+import com.up.projectmanager.projectdetail.ProjectActivity
 import com.up.projectmanager.R
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.util.*
 
 class ProjectAdapter(private val ProjectList: List<Project>):
     RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {

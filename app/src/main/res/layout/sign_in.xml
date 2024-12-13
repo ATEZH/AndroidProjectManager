@@ -100,8 +100,8 @@
                     android:text="@string/sign_up_link"
                     android:textColor="@color/primary_blue"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="loadSignUpLayout"/>
+                    android:layout_height="match_parent"
+            />
         </LinearLayout>
         <CheckBox
                 android:text="Stay signed in"

@@ -3,12 +3,11 @@ package com.up.projectmanager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import com.up.projectmanager.data.project.Project
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.*

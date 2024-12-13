@@ -1,16 +1,17 @@
-package com.up.projectmanager
+package com.up.projectmanager.projectdetail
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
-import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.up.projectmanager.data.project.Project
+import com.up.projectmanager.R
 import kotlinx.serialization.json.Json
 
 
