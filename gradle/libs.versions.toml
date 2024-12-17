@@ -13,6 +13,7 @@ lifecycleViewmodelKtx = "2.8.7"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
+materialVersion = "1.8.0"
 playServices = "16.0.0"
 playServicesVersion = "17.0.0"
 
@@ -35,6 +36,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+material-v180 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 play-services = { module = "com.google.android.gms:play-services" }
 play-services-v1600 = { module = "com.google.android.gms:play-services", version.ref = "playServices" }
 

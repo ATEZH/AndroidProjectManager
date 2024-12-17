@@ -10,8 +10,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.up.projectmanager.util.FormValidation
 import com.up.projectmanager.R
+import com.up.projectmanager.util.FormValidation
 
 class SignUpActivity  : AppCompatActivity() {
 

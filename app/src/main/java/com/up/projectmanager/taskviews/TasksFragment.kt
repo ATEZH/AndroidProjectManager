@@ -4,18 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.up.projectmanager.MainViewModel
 import com.up.projectmanager.R
-import com.up.projectmanager.data.project.Project
 import com.up.projectmanager.data.task.Task
-import com.up.projectmanager.projectviews.ProjectAdapter
 
 class TasksFragment: Fragment() {
 

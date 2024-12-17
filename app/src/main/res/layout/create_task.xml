@@ -8,7 +8,7 @@
                                                        android:orientation="vertical" android:padding="20dp"
     >
         <TextView
-                android:text="Create Project"
+                android:text="Create Task"
                 android:textSize="30sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/textView2"
@@ -21,7 +21,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/project_name_layout"
-                android:hint="Project name"
+                android:hint="Task name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintWidth_max="550dp"
@@ -41,7 +41,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/project_description_layout"
-                android:hint="Project description"
+                android:hint="Task description"
                 android:layout_width="0dp"
                 android:layout_height="130dp"
                 android:layout_marginTop="26dp"
@@ -60,6 +60,20 @@
                     android:lines="5"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+<!--        <com.google.android.material.datepicker.MaterialDatePicker-->
+<!--                android:id="@+id/project_deadline_layout"-->
+<!--                android:hint="Deadline"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="26dp"-->
+<!--                app:layout_constraintWidth_max="550dp"-->
+<!--                app:boxStrokeColor="@color/secondary_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/project_description_layout"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.5">-->
+<!--        </com.google.android.material.datepicker.MaterialDatePicker>-->
+
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/project_deadline_layout"
                 android:hint="Deadline"
@@ -77,12 +91,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:boxStrokeColor="@color/secondary_blue"
-                    android:inputType="textEmailAddress"/>
+                    android:inputType="date"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/project_members_layout"
-                android:hint="Members"
+                android:hint="Assignees"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
@@ -100,25 +114,25 @@
                     android:textColorHint="@color/primary_blue"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:id="@+id/project_tasks_layout"-->
-<!--                android:hint="Tasks"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="26dp"-->
-<!--                app:layout_constraintWidth_max="550dp"-->
-<!--                app:boxStrokeColor="@color/secondary_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/project_members_layout"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.5">-->
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/project_tasks_input"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:boxStrokeColor="@color/secondary_blue"-->
-<!--                    android:textColorHint="@color/primary_blue"/>-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--                android:id="@+id/project_tasks_layout"-->
+        <!--                android:hint="Tasks"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="26dp"-->
+        <!--                app:layout_constraintWidth_max="550dp"-->
+        <!--                app:boxStrokeColor="@color/secondary_blue"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@id/project_members_layout"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintHorizontal_bias="0.5">-->
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                    android:id="@+id/project_tasks_input"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    app:boxStrokeColor="@color/secondary_blue"-->
+        <!--                    android:textColorHint="@color/primary_blue"/>-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <Button
                 android:id="@+id/create_project_button"

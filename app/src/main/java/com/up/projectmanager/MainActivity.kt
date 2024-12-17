@@ -1,8 +1,8 @@
 package com.up.projectmanager
 
+import ProfileFragment
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.viewModels
@@ -13,7 +13,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.up.projectmanager.projectviews.CreateProjectActivity
 import com.up.projectmanager.projectviews.ProjectsFragment
-import ProfileFragment
 import com.up.projectmanager.taskviews.TasksFragment
 
 class MainActivity : AppCompatActivity() {

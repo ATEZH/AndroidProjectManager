@@ -1,17 +1,14 @@
-import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.google.firebase.auth.FirebaseAuth
 import com.up.projectmanager.MainViewModel
 import com.up.projectmanager.R
-import com.up.projectmanager.data.project.Project
 import com.up.projectmanager.data.user.User
 
 

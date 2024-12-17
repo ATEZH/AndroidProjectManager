@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.LinearProgressIndicator
-import com.up.projectmanager.data.project.Project
 import com.up.projectmanager.R
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import com.up.projectmanager.data.project.Project
 
 class ProjectAdapter(val projectList: MutableList<Project> = mutableListOf()):
     RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {

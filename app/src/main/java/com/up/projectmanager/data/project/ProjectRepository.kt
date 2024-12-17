@@ -1,5 +1,6 @@
 package com.up.projectmanager.data.project
 
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -45,8 +46,8 @@ class ProjectRepository {
                 id = document.id,
                 name = document.getString("name") ?: "",
                 description = document.getString("description") ?: "",
-                createdOn = timestampConverter.timestampToString(document["createdOn"]),
-                deadline = timestampConverter.timestampToString(document["deadline"]),
+                createdOn = timestampConverter.timestampToString(document["createdOn"] as Timestamp),
+                deadline = timestampConverter.timestampToString(document["deadline"] as Timestamp),
                 members = members,
                 memberRoles = memberRoles,
                 tasks = mutableListOf()
@@ -61,10 +62,12 @@ class ProjectRepository {
             .await()
         return querySnapshot.map { document ->
             Task(
+                id = document.id,
                 name = document.getString("name") ?: "",
                 description = document.getString("description") ?: "",
-                createdOn = timestampConverter.timestampToString(document["createdOn"]),
-                deadline = timestampConverter.timestampToString(document["deadline"]),
+                createdOn = timestampConverter.timestampToString(document["createdOn"] as Timestamp),
+                deadline = timestampConverter.timestampToString(document["deadline"] as Timestamp),
+                assignees = document.get("assignees") as ArrayList<String>,
                 completed = document.getBoolean("completed") ?: false,
                 projectId = document.getString("projectId") ?: ""
             )

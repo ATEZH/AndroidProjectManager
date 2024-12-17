@@ -10,7 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.up.projectmanager.*
+import com.up.projectmanager.MainActivity
+import com.up.projectmanager.R
 import com.up.projectmanager.util.FormValidation
 
 class SignInActivity : AppCompatActivity() {

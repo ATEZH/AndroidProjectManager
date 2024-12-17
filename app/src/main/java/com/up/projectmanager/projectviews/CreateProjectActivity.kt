@@ -9,7 +9,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.up.projectmanager.MainActivity
 import com.up.projectmanager.R
 import com.up.projectmanager.data.project.Project
-import com.up.projectmanager.data.task.Task
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.*
@@ -32,9 +31,9 @@ class CreateProjectActivity  : AppCompatActivity() {
         val createdOn = GregorianCalendar().get(Calendar.DATE).toString()
         val deadline = findViewById<TextInputEditText>(R.id.project_deadline_input).text.toString()
         val membersRaw = findViewById<TextInputEditText>(R.id.project_members_input).text.toString().split(";")
-        val tasksRaw = findViewById<TextInputEditText>(R.id.project_tasks_input).text.toString().split(";")
+//        val tasksRaw = findViewById<TextInputEditText>(R.id.project_tasks_input).text.toString().split(";")
 //        val membersList = membersRaw.map { it.split(",") }
-        val tasksList = createTasksFromInput(tasksRaw)
+//        val tasksList = createTasksFromInput(tasksRaw)
         var project = Project(
             id = id,
             name = name,
@@ -43,7 +42,7 @@ class CreateProjectActivity  : AppCompatActivity() {
             deadline = deadline,
             members = mutableListOf(),
             memberRoles = HashMap<String,String>(),
-            tasks = tasksList
+            tasks = listOf()
         )
         val projectSer = Json.encodeToString(project)
         val prefs = getSharedPreferences(
@@ -54,14 +53,14 @@ class CreateProjectActivity  : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun createTasksFromInput(tasksRaw: List<String>): List<Task> {
-        return tasksRaw.map { taskData ->
-            val taskParts = taskData.split(",")
-            val name = taskParts[0].trim()
-            val description = taskParts[1].trim()
-            val createdOn = GregorianCalendar().get(Calendar.DATE).toString()
-            val randomDeadline = "2040-10-10"
-            Task(name, description, createdOn, randomDeadline, completed = false, "123")
-        }
-    }
+//    fun createTasksFromInput(tasksRaw: List<String>): List<Task> {
+//        return tasksRaw.map { taskData ->
+//            val taskParts = taskData.split(",")
+//            val name = taskParts[0].trim()
+//            val description = taskParts[1].trim()
+//            val createdOn = GregorianCalendar().get(Calendar.DATE).toString()
+//            val randomDeadline = "2040-10-10"
+//            Task(name, description, createdOn, randomDeadline, completed = false, "123")
+//        }
+//    }
 }
