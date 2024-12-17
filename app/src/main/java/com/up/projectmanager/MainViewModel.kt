@@ -22,8 +22,6 @@ class MainViewModel : ViewModel() {
     private val taskRepository = TaskRepository()
     private val projectRepository = ProjectRepository()
     private val userRepository = UserRepository()
-    private val auth: FirebaseAuth = Firebase.auth
-    private val db = Firebase.firestore
 
     private val _projectsLoading = MutableLiveData<Boolean>()
     val projectsLoading: LiveData<Boolean> get() = _projectsLoading

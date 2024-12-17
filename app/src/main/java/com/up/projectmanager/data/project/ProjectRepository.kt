@@ -5,6 +5,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.up.projectmanager.data.task.Task
+import com.up.projectmanager.data.user.User
 import com.up.projectmanager.util.ConvertTimestamp
 import kotlinx.coroutines.tasks.await
 
@@ -13,6 +14,24 @@ class ProjectRepository {
     private val db = Firebase.firestore
     private val timestampConverter = ConvertTimestamp()
 
+    suspend fun getProject(projectId: String): Project {
+        val documentSnapshot = db.collection("projects")
+            .document(projectId)
+            .get()
+            .await()
+        val tasks = fetchProjectTasks(documentSnapshot.id)
+        return Project(
+            id = documentSnapshot.id,
+            name = documentSnapshot.getString("name") ?: "",
+            description = documentSnapshot.getString("description") ?: "",
+            createdOn = timestampConverter.timestampToString(documentSnapshot.getTimestamp("createdOn")),
+            deadline = timestampConverter.timestampToString(documentSnapshot.getTimestamp("deadline")),
+            members = documentSnapshot["members"] as ArrayList<String>,
+            memberRoles = documentSnapshot["memberRoles"] as HashMap<String, String>,
+            tasks = tasks
+        )
+    }
+
     suspend fun fetchProjects(): List<Project> {
         val userId = auth.currentUser!!.uid
         val querySnapshot = db.collection("projects")
@@ -20,8 +39,8 @@ class ProjectRepository {
             .get()
             .await()
         return querySnapshot.map { document ->
-            val taskList = fetchProjectTasks(document.id)
             val members = document["members"] as ArrayList<String>
+            val memberRoles = document["memberRoles"] as HashMap<String, String>
             Project(
                 id = document.id,
                 name = document.getString("name") ?: "",
@@ -29,7 +48,8 @@ class ProjectRepository {
                 createdOn = timestampConverter.timestampToString(document["createdOn"]),
                 deadline = timestampConverter.timestampToString(document["deadline"]),
                 members = members,
-                tasks = taskList
+                memberRoles = memberRoles,
+                tasks = mutableListOf()
             )
         }
     }
@@ -49,5 +69,22 @@ class ProjectRepository {
                 projectId = document.getString("projectId") ?: ""
             )
         }
+    }
+
+    suspend fun fetchProjectMembers(userIds: List<String>): List<User> {
+        var users = ArrayList<User>()
+        for (userId in userIds) {
+            val documentSnapshot = db.collection("users")
+                .document(userId)
+                .get()
+                .await()
+            users.add(User(
+                documentSnapshot.id,
+                documentSnapshot.getString("firstName") ?: "",
+                documentSnapshot.getString("lastName") ?: "",
+                documentSnapshot.getString("email") ?: ""
+            ))
+        }
+        return users
     }
 }

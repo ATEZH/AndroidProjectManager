@@ -12,14 +12,15 @@ class UserRepository {
 
     suspend fun getUser(): User {
         val userId = auth.currentUser!!.uid
-        val querySnapshot = db.collection("users")
+        val documentSnapshot = db.collection("users")
             .document(userId)
             .get()
             .await()
         return User(
-            querySnapshot.getString("firstName") ?: "",
-            querySnapshot.getString("lastName") ?: "",
-            querySnapshot.getString("email") ?: ""
+            documentSnapshot.id,
+            documentSnapshot.getString("firstName") ?: "",
+            documentSnapshot.getString("lastName") ?: "",
+            documentSnapshot.getString("email") ?: ""
         )
     }
 }

@@ -42,6 +42,7 @@ class CreateProjectActivity  : AppCompatActivity() {
             createdOn = createdOn,
             deadline = deadline,
             members = mutableListOf(),
+            memberRoles = HashMap<String,String>(),
             tasks = tasksList
         )
         val projectSer = Json.encodeToString(project)

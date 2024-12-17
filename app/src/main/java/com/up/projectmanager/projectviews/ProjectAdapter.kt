@@ -38,7 +38,7 @@ class ProjectAdapter(val projectList: MutableList<Project> = mutableListOf()):
         holder.projectDeadline.text = project.deadline
         holder.itemView.setOnClickListener{
             val intent = Intent(holder.itemView.context, ProjectDetailsActivity::class.java)
-            intent.putExtra("project", project)
+            intent.putExtra("project", project.id)
             holder.itemView.context.startActivity(intent)
         }
     }
