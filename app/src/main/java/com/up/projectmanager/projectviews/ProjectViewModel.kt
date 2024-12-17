@@ -43,7 +43,6 @@ class ProjectViewModel: ViewModel() {
                 val project = projectRepository.getProject(projectId)
                 val members = projectRepository.fetchProjectMembers(project.members)
                 val tasks = projectRepository.fetchProjectTasks(project.id)
-                println(project.id)
                 _members.postValue(members)
                 _tasks.postValue(tasks)
                 _project.postValue(project)

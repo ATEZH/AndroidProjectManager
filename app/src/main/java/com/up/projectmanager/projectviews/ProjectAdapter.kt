@@ -33,7 +33,7 @@ class ProjectAdapter(val projectList: MutableList<Project> = mutableListOf()):
             if (task.completed) doneTasks++
         }
         holder.projectProgress.progress = if (project.tasks.isNotEmpty()) doneTasks*100/project.tasks.size else 0
-        holder.projectDeadline.text = project.deadline
+        holder.projectDeadline.text = "Deadline: ${project.deadline}"
         holder.itemView.setOnClickListener{
             val intent = Intent(holder.itemView.context, ProjectDetailsActivity::class.java)
             intent.putExtra("project", project.id)

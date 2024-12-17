@@ -103,8 +103,8 @@ class ProjectDetailsActivity : AppCompatActivity() {
             tableRow.setPadding(0, 16, 0, 16)
             tasksTable.addView(tableRow)
         }
-        projectCreatedOn.text = project.createdOn
-        projectDeadline.text = project.deadline
+        projectCreatedOn.text = "Created On: ${project.createdOn}"
+        projectDeadline.text = "Deadline: ${project.deadline}"
     }
 
     private fun createTextView(text: String): TextView {

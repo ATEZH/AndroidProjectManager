@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.tasks -> {
                     currentFragment = ProjectsFragment::class.java.simpleName
-                    addButton.visibility = View.VISIBLE
+                    addButton.visibility = View.INVISIBLE
                     loadFragment(TasksFragment())
                     true
                 }

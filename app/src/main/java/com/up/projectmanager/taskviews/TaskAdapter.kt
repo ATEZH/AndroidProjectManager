@@ -27,7 +27,8 @@ class TaskAdapter(val taskList: MutableList<Task> = mutableListOf()):
         holder.taskName.text = task.name
         holder.taskDescription.text = task.description
         holder.taskStatus.text = if (task.completed) "Completed" else "In Progress"
-        holder.taskDeadline.text = task.deadline
+        if (task.completed) holder.taskStatus.setBackgroundResource(R.color.green) else holder.taskStatus.setBackgroundResource(R.color.secondary_yellow)
+        holder.taskDeadline.text = "Deadline: ${task.deadline}"
         holder.itemView.setOnClickListener{
             val intent = Intent(holder.itemView.context, TaskDetailsActivity::class.java)
             intent.putExtra("task", task.id)

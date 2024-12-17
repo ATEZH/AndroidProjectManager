@@ -23,7 +23,6 @@ class ProjectRepository {
     }
 
     suspend fun getProject(projectId: String): Project {
-        println(projectId)
         val documentSnapshot = db.collection("projects")
             .document(projectId)
             .get()
@@ -64,7 +63,7 @@ class ProjectRepository {
     }
 
     suspend fun fetchProjectTasks(projectId: String): List<Task> {
-        val querySnapshot = db.collection("tasks")
+        val querySnapshot = db.collection("projects")
             .whereEqualTo("projectId", projectId)
             .get()
             .await()
