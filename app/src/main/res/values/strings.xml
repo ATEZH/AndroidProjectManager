@@ -18,5 +18,6 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="home_nav_button">Home</string>
     <string name="projects_nav_button">Projects</string>
+    <string name="tasks_nav_button">Tasks</string>
     <string name="profile_nav_button">Profile</string>
 </resources>

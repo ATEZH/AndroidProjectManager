@@ -1,66 +1,94 @@
 package com.up.projectmanager
 
-import ProjectsFragment
-import SettingsFragment
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.os.Parcelable
+import android.view.View
+import android.widget.FrameLayout
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.serialization.json.Json
-import android.util.Log
-import android.content.ContentValues.TAG
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.up.projectmanager.signin.SignInActivity
-import com.up.projectmanager.signup.SignUpActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.up.projectmanager.projectviews.CreateProjectActivity
+import com.up.projectmanager.projectviews.ProjectsFragment
+import ProfileFragment
+import com.up.projectmanager.taskviews.TasksFragment
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var user: User
-    lateinit var bottomMenu : BottomNavigationView
-    lateinit var addProject : Button
+    private val viewModel: MainViewModel by viewModels()
+
+    private lateinit var loadingSpinner: CircularProgressIndicator
+    private lateinit var fragmentContainer: FrameLayout
+    private lateinit var bottomMenu: BottomNavigationView
+    private lateinit var addButton: FloatingActionButton
+    private var currentFragment: String = ProjectsFragment::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
         setContentView(R.layout.activity_main)
-        loadFragment(ProjectsFragment())
-        addProject = findViewById(R.id.add_project_button)
-        addProject.setOnClickListener {
-            goToCreateProject()
-        }
+
+        initializeUI()
+    }
+
+    private fun initializeUI() {
         bottomMenu = findViewById(R.id.bottom_menu)
+        fragmentContainer = findViewById(R.id.container)
+        loadingSpinner = findViewById(R.id.loading_spinner)
+        addButton = findViewById(R.id.add_fab)
+
         bottomMenu.itemIconTintList = null
+        bottomMenu.selectedItemId = R.id.projects
+        loadFragment(ProjectsFragment())
         bottomMenu.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.projects -> {
+                    currentFragment = ProjectsFragment::class.java.simpleName
+                    addButton.visibility = View.VISIBLE
                     loadFragment(ProjectsFragment())
+                    true
+                }
+                R.id.tasks -> {
+                    currentFragment = ProjectsFragment::class.java.simpleName
+                    addButton.visibility = View.VISIBLE
+                    loadFragment(TasksFragment())
                     true
                 }
                 R.id.settings -> {
-                    loadFragment(SettingsFragment())
+                    currentFragment = ProfileFragment::class.java.simpleName
+                    addButton.visibility = View.INVISIBLE
+                    loadFragment(ProfileFragment())
                     true
                 }
-                else -> {
-                    loadFragment(ProjectsFragment())
-                    true
-                }
+                else -> false
             }
         }
+
+        addButton.setOnClickListener {
+            goToCreateTaskOrProject()
+        }
+
     }
 
-    private  fun loadFragment(fragment: Fragment){
+    private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.setReorderingAllowed(true)
         transaction.replace(R.id.container, fragment)
         transaction.commit()
     }
 
-    fun goToCreateProject() {
-        val intent = Intent(this, CreateProjectActivity::class.java)
-        startActivity(intent)
+    private fun goToCreateTaskOrProject() {
+        when (currentFragment) {
+            ProjectsFragment::class.java.simpleName -> {
+                val intent = Intent(this, CreateProjectActivity::class.java)
+                startActivity(intent)
+            }
+            ProfileFragment::class.java.simpleName -> {
+                val intent = Intent(this, CreateProjectActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }

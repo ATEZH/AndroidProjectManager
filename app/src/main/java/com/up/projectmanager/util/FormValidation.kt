@@ -1,4 +1,4 @@
-package com.up.projectmanager
+package com.up.projectmanager.util
 
 import android.text.TextUtils
 import android.util.Patterns
@@ -13,6 +13,10 @@ class FormValidation {
         }
         if (!inputText.all { it.isLetter() }) {
             input.error = "Name cannot contain numbers or special characters"
+            return false
+        }
+        if (inputText.length > 15) {
+            input.error = "Name cannot be larger than 15 characters"
             return false
         }
         return true

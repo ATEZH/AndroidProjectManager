@@ -6,7 +6,11 @@
         android:title="@string/projects_nav_button"/>
 
     <item
+        android:id="@+id/tasks"
+        android:icon="@drawable/task_selector"
+        android:title="@string/tasks_nav_button"/>
+    <item
         android:id="@+id/settings"
-        android:icon="@drawable/settings_selector"
+        android:icon="@drawable/person_selector"
         android:title="@string/profile_nav_button"/>
 </menu>

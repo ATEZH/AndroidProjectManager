@@ -1,13 +1,15 @@
-package com.up.projectmanager
+package com.up.projectmanager.projectviews
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import com.up.projectmanager.MainActivity
+import com.up.projectmanager.R
 import com.up.projectmanager.data.project.Project
+import com.up.projectmanager.data.task.Task
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.*
@@ -15,7 +17,6 @@ import java.util.*
 class CreateProjectActivity  : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.create_project)
         val createProjectButton = findViewById<Button>(R.id.create_project_button)
         createProjectButton.setOnClickListener {
@@ -32,7 +33,7 @@ class CreateProjectActivity  : AppCompatActivity() {
         val deadline = findViewById<TextInputEditText>(R.id.project_deadline_input).text.toString()
         val membersRaw = findViewById<TextInputEditText>(R.id.project_members_input).text.toString().split(";")
         val tasksRaw = findViewById<TextInputEditText>(R.id.project_tasks_input).text.toString().split(";")
-        val membersList = membersRaw.map { it.split(",") }
+//        val membersList = membersRaw.map { it.split(",") }
         val tasksList = createTasksFromInput(tasksRaw)
         var project = Project(
             id = id,
@@ -40,7 +41,7 @@ class CreateProjectActivity  : AppCompatActivity() {
             description = description,
             createdOn = createdOn,
             deadline = deadline,
-            members = membersList,
+            members = mutableListOf(),
             tasks = tasksList
         )
         val projectSer = Json.encodeToString(project)
@@ -59,7 +60,7 @@ class CreateProjectActivity  : AppCompatActivity() {
             val description = taskParts[1].trim()
             val createdOn = GregorianCalendar().get(Calendar.DATE).toString()
             val randomDeadline = "2040-10-10"
-            Task(name, description, createdOn, randomDeadline, done = false)
+            Task(name, description, createdOn, randomDeadline, completed = false, "123")
         }
     }
 }

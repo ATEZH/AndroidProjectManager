@@ -1,23 +1,17 @@
-package com.up.projectmanager.signup
+package com.up.projectmanager.entryviews
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.up.projectmanager.FormValidation
-import com.up.projectmanager.MainActivity
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.up.projectmanager.util.FormValidation
 import com.up.projectmanager.R
-import com.up.projectmanager.User
-import com.up.projectmanager.signin.SignInActivity
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 class SignUpActivity  : AppCompatActivity() {
 
@@ -32,7 +26,6 @@ class SignUpActivity  : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.sign_up)
 
         firstNameInput = findViewById(R.id.first_name_input)
@@ -55,24 +48,42 @@ class SignUpActivity  : AppCompatActivity() {
         }
     }
 
-    fun signUp() {
-        val firstName = firstNameInput.text.toString().trim()
-        val lastName = lastNameInput.text.toString().trim()
+    private fun signUp() {
         val email = emailInput.text.toString().trim()
         val password = passwordInput.text.toString().trim()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    auth.signOut()
-                    loadSignInLayout()
-                } else {
-                    Toast.makeText(
-                        baseContext,
-                        "Sign up failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                }
+                whenUserSignedUp(task.isSuccessful)
             }
+    }
+
+    private fun whenUserSignedUp(taskIsSuccessful: Boolean) {
+        if (taskIsSuccessful) {
+            auth.signOut()
+            Toast.makeText(
+                baseContext, "Signed up successfully.", Toast.LENGTH_SHORT
+            ).show()
+            loadSignInLayout()
+        } else {
+            Toast.makeText(
+                baseContext, "Sign up failed.", Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun addUserToDatabase() {
+        val firstName = firstNameInput.text.toString().trim()
+        val lastName = lastNameInput.text.toString().trim()
+        val email = emailInput.text.toString().trim()
+        val db = Firebase.firestore
+        val users = db.collection("users")
+        users.document().set(
+            hashMapOf(
+                "firstName" to firstName,
+                "lastName" to lastName,
+                "email" to email,
+            )
+        )
     }
 
     private fun loadSignInLayout() {

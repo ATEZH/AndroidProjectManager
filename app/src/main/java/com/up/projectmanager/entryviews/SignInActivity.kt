@@ -1,4 +1,4 @@
-package com.up.projectmanager.signin
+package com.up.projectmanager.entryviews
 
 import android.content.Context
 import android.content.Intent
@@ -7,12 +7,11 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.up.projectmanager.*
-import com.up.projectmanager.signup.SignUpActivity
+import com.up.projectmanager.util.FormValidation
 
 class SignInActivity : AppCompatActivity() {
 
@@ -22,10 +21,12 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var signInButton: Button
     private lateinit var staySignedIn: CheckBox
     private lateinit var goToSignUpButton: TextView
+    private val preferences by lazy {
+        getSharedPreferences("ProjectManager", Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.sign_in)
         emailInput = findViewById(R.id.email_input)
         passwordInput = findViewById(R.id.password_input)
@@ -35,9 +36,7 @@ class SignInActivity : AppCompatActivity() {
         goToSignUpButton = findViewById(R.id.signup2)
         auth = FirebaseAuth.getInstance()
 
-        val prefs = getSharedPreferences("ProjectManager", Context.MODE_PRIVATE)
-
-        if (auth.currentUser == null || !prefs.getBoolean("staySignedIn", false)) {
+        if (auth.currentUser == null || !preferences.getBoolean("staySignedIn", false)) {
             auth.signOut()
         } else {
             loadMainActivity()
@@ -55,25 +54,28 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun signIn() {
-        val prefs = getSharedPreferences("ProjectManager", Context.MODE_PRIVATE)
-        val editor = prefs.edit()
-        editor.putBoolean("staySignedIn", staySignedIn.isChecked)
-        editor.apply()
-
         val email = emailInput.text.toString().trim()
         val password = passwordInput.text.toString().trim()
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    loadMainActivity()
-                } else {
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                }
+                whenUserSignedIn(task.isSuccessful)
             }
+    }
+
+    private fun whenUserSignedIn(taskIsSuccessful: Boolean) {
+        if (taskIsSuccessful) {
+            val editor = preferences.edit()
+            editor.putBoolean("staySignedIn", staySignedIn.isChecked)
+            editor.apply()
+            Toast.makeText(
+                baseContext, "Signed in successfully.", Toast.LENGTH_SHORT
+            ).show()
+            loadMainActivity()
+        } else {
+            Toast.makeText(
+                baseContext, "Authentication failed.", Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun loadMainActivity() {
@@ -92,6 +94,6 @@ class SignInActivity : AppCompatActivity() {
 
     private fun validateForm(): Boolean {
         val validator = FormValidation()
-        return validator.validateEmail(emailInput) and validator.validatePassword(passwordInput)
+        return validator.validateEmail(emailInput)
     }
 }

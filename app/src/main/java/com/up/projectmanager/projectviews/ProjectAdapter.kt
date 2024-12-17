@@ -1,4 +1,4 @@
-package com.example.scrollviewui
+package com.up.projectmanager.projectviews
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,19 +8,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.up.projectmanager.data.project.Project
-import com.up.projectmanager.projectdetail.ProjectActivity
 import com.up.projectmanager.R
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class ProjectAdapter(private val ProjectList: List<Project>):
+class ProjectAdapter(val projectList: MutableList<Project> = mutableListOf()):
     RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
-    private var onClickListener: View.OnClickListener? = null
     class ProjectViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val projectName = itemView.findViewById<TextView>(R.id.project_name)
-        val projectDescription = itemView.findViewById<TextView>(R.id.project_description)
-        val projectProgress = itemView.findViewById<LinearProgressIndicator>(R.id.project_progress)
-        val projectDeadline = itemView.findViewById<TextView>(R.id.project_deadline)
+        val projectName: TextView = itemView.findViewById(R.id.project_name)
+        val projectDescription: TextView = itemView.findViewById(R.id.project_description)
+        val projectProgress: LinearProgressIndicator = itemView.findViewById(R.id.project_progress)
+        val projectDeadline: TextView = itemView.findViewById(R.id.project_deadline)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewHolder {
@@ -29,23 +27,27 @@ class ProjectAdapter(private val ProjectList: List<Project>):
     }
 
     override fun onBindViewHolder(holder: ProjectViewHolder, position: Int) {
-        val project = ProjectList[position]
+        val project = projectList[position]
         holder.projectName.text = project.name
         holder.projectDescription.text = project.description
         var doneTasks = 0
         for (task in project.tasks) {
-            if (task.done) doneTasks++
+            if (task.completed) doneTasks++
         }
-        holder.projectProgress.progress = (doneTasks*100/project.tasks.size)
+        holder.projectProgress.progress = if (project.tasks.isNotEmpty()) doneTasks*100/project.tasks.size else 0
         holder.projectDeadline.text = project.deadline
-        holder.itemView.id = project.id.toInt()
         holder.itemView.setOnClickListener{
-            val intent = Intent(holder.itemView.context, ProjectActivity::class.java)
-            val projectSer = Json.encodeToString(project)
-            intent.putExtra("project", projectSer)
+            val intent = Intent(holder.itemView.context, ProjectDetailsActivity::class.java)
+            intent.putExtra("project", project)
             holder.itemView.context.startActivity(intent)
         }
     }
 
-    override fun getItemCount() = ProjectList.size
+    fun updateProjects(newProjects: List<Project>) {
+        projectList.clear()
+        projectList.addAll(newProjects)
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount() = projectList.size
 }

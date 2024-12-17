@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_margin="10dp"
+                                   app:cardElevation="2dp"
+                                   app:cardCornerRadius="10dp">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="15dp">
+
+        <TextView
+                android:text=""
+                android:textSize="30sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/task_name"/>
+        <TextView
+                android:text=""
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/task_description"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:text="2024-12-12 21:12:32"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/task_deadline"
+                    android:layout_weight="1"/>
+            <androidx.cardview.widget.CardView
+                    app:cardCornerRadius="10dp"
+                    android:layout_margin="6dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/primary_yellow"
+                    android:background="@color/primary_yellow"
+                    android:layout_weight="1">
+                <TextView
+                        android:text="In Progress"
+                        android:id="@+id/task_status"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+            </androidx.cardview.widget.CardView>
+
+            <!--            <com.google.android.material.progressindicator.LinearProgressIndicator-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="5dp"-->
+<!--                    app:showAnimationBehavior="none"-->
+<!--                    app:indicatorColor="@color/primary_yellow"-->
+<!--                    app:hideAnimationBehavior="none"-->
+<!--                    app:trackThickness="8dp"-->
+<!--                    android:id="@+id/task_status"-->
+<!--                    android:progress="60"/>-->
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
