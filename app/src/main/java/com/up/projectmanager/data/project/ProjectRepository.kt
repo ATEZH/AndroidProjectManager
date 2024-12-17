@@ -15,7 +15,15 @@ class ProjectRepository {
     private val db = Firebase.firestore
     private val timestampConverter = ConvertTimestamp()
 
+    suspend fun createProject(project: HashMap<String, Any>): String {
+        val documentSnapshot = db.collection("projects")
+            .add(project)
+            .await()
+        return documentSnapshot.id
+    }
+
     suspend fun getProject(projectId: String): Project {
+        println(projectId)
         val documentSnapshot = db.collection("projects")
             .document(projectId)
             .get()

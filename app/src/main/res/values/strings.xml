@@ -20,4 +20,8 @@
     <string name="projects_nav_button">Projects</string>
     <string name="tasks_nav_button">Tasks</string>
     <string name="profile_nav_button">Profile</string>
+    <string-array name="memberRole">
+        <item>Admin</item>
+        <item>Member</item>
+    </string-array>
 </resources>
