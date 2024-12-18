@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textfield.TextInputLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:hint="Asignee ID"
+        android:layout_marginTop="26dp"
+        app:layout_constraintWidth_max="550dp"
+        app:boxStrokeColor="@color/secondary_blue">
+    <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/assignee_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxStrokeColor="@color/secondary_blue"/>
+</com.google.android.material.textfield.TextInputLayout>

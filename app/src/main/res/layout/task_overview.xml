@@ -57,7 +57,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Member"
+                        android:text="Assignee"
                         android:gravity="center"/>
             </TableRow>
         </TableLayout>
@@ -73,6 +73,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/task_deadline"/>
+        <Button
+                android:id="@+id/mark_as_completed"
+                android:text="Mark as Completed"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"/>
     </LinearLayout>
     <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/loading_spinner"

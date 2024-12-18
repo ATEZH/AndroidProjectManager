@@ -77,6 +77,15 @@
                         android:text="Status" android:gravity="center"/>
             </TableRow>
         </TableLayout>
+        <Button
+                android:id="@+id/add_task_button"
+                android:text="Create Task"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"/>
         <TextView
                 android:text=""
                 android:padding="10dp"

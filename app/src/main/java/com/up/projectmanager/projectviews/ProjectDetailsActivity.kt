@@ -1,26 +1,27 @@
 package com.up.projectmanager.projectviews
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.firebase.auth.FirebaseAuth
 import com.up.projectmanager.R
 import com.up.projectmanager.data.project.Project
 import com.up.projectmanager.data.task.Task
 import com.up.projectmanager.data.user.User
+import com.up.projectmanager.taskviews.CreateTaskActivity
 import java.util.*
 
 
 class ProjectDetailsActivity : AppCompatActivity() {
 
     private val viewModel: ProjectViewModel by viewModels()
+    private val auth = FirebaseAuth.getInstance()
     private lateinit var project: Project
     private lateinit var members: List<User>
     private lateinit var tasks: List<Task>
@@ -33,6 +34,7 @@ class ProjectDetailsActivity : AppCompatActivity() {
     private lateinit var progressBar: LinearProgressIndicator
     private lateinit var projectMembersTable: TableLayout
     private lateinit var tasksTable: TableLayout
+    private lateinit var createTaskButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.project_overview)
@@ -52,6 +54,10 @@ class ProjectDetailsActivity : AppCompatActivity() {
         tasksTable = findViewById(R.id.project_tasks)
         projectCreatedOn = findViewById(R.id.project_created_on)
         projectDeadline = findViewById(R.id.project_deadline)
+        createTaskButton = findViewById(R.id.add_task_button)
+        createTaskButton.setOnClickListener {
+            goToCreateTaskActivity()
+        }
     }
 
     private fun observeViewModel() {
@@ -105,6 +111,7 @@ class ProjectDetailsActivity : AppCompatActivity() {
         }
         projectCreatedOn.text = "Created On: ${project.createdOn}"
         projectDeadline.text = "Deadline: ${project.deadline}"
+        createTaskButton.visibility = if (project.memberRoles[auth.uid!!] == "member") View.GONE else View.VISIBLE
     }
 
     private fun createTextView(text: String): TextView {
@@ -116,6 +123,13 @@ class ProjectDetailsActivity : AppCompatActivity() {
                 weight = 1f
             }
         }
+    }
+
+    private fun goToCreateTaskActivity() {
+        val intent = Intent(this, CreateTaskActivity::class.java)
+        intent.putExtra("projectId", project.id)
+        startActivity(intent)
+        finish()
     }
 
     private fun setLoading(status: Boolean) {

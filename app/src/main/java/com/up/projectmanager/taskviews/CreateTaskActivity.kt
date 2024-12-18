@@ -1,4 +1,4 @@
-package com.up.projectmanager.projectviews
+package com.up.projectmanager.taskviews
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,40 +13,39 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.FirebaseAuth
 import com.up.projectmanager.MainActivity
 import com.up.projectmanager.R
 import com.up.projectmanager.databinding.CreateProjectBinding
+import com.up.projectmanager.databinding.CreateTaskBinding
+import com.up.projectmanager.projectviews.ProjectViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CreateProjectActivity : AppCompatActivity() {
+class CreateTaskActivity : AppCompatActivity() {
+    private val viewModel: TaskViewModel by viewModels()
 
-    private val viewModel: ProjectViewModel by viewModels()
-
-    private lateinit var binding: CreateProjectBinding
-    private var memberLayouts = mutableListOf<Pair<TextInputEditText, AutoCompleteTextView>>() // To track member inputs
+    private lateinit var binding: CreateTaskBinding
+    private var memberLayouts = mutableListOf<TextInputEditText>()
+    private lateinit var members: List<String>
+    private lateinit var projectId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = CreateProjectBinding.inflate(layoutInflater)
+        projectId = intent.getStringExtra("projectId")!!
+        viewModel.getProject(projectId)
+        binding = CreateTaskBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val roles = resources.getStringArray(R.array.memberRole)
-        val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, roles)
-
-        addMemberLayout(arrayAdapter)
-
-        binding.root.findViewById<Button>(R.id.add_member_button).setOnClickListener {
-            addMemberLayout(arrayAdapter)
-        }
-
-        binding.root.findViewById<Button>(R.id.create_project_button).setOnClickListener {
+        binding.root.findViewById<Button>(R.id.create_task_button).setOnClickListener {
             createProject()
         }
 
-        binding.projectDeadlineInput.setOnClickListener {
+        binding.root.findViewById<Button>(R.id.add_assignee_button).setOnClickListener {
+            addMemberLayout()
+        }
+        addMemberLayout()
+
+        binding.taskDeadlineInput.setOnClickListener {
             showDatePicker()
         }
         val constraintsBuilder = CalendarConstraints.Builder()
@@ -56,16 +55,16 @@ class CreateProjectActivity : AppCompatActivity() {
             .setCalendarConstraints(constraintsBuilder.build())
             .build()
 
-        binding.projectDeadlineInput.setOnClickListener {
+        binding.taskDeadlineInput.setOnClickListener {
             datePicker.show(supportFragmentManager, "datePicker")
         }
         datePicker.addOnPositiveButtonClickListener { selection ->
             val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val selectedDate = sdf.format(Date(selection))
-            binding.projectDeadlineInput.setText(selectedDate)
+            binding.taskDeadlineInput.setText(selectedDate)
         }
-        binding.projectDeadlineInput.isFocusable = false
-        binding.projectDeadlineInput.isClickable = true
+        binding.taskDeadlineInput.isFocusable = false
+        binding.taskDeadlineInput.isClickable = true
         observeViewModel()
     }
 
@@ -80,55 +79,54 @@ class CreateProjectActivity : AppCompatActivity() {
         datePicker.addOnPositiveButtonClickListener { selection ->
             val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val formattedDate = formatter.format(Date(selection))
-            binding.projectDeadlineInput.setText(formattedDate)
+            binding.taskDeadlineInput.setText(formattedDate)
         }
     }
 
-    private fun addMemberLayout(arrayAdapter: ArrayAdapter<String>) {
+    private fun addMemberLayout() {
         val inflater = LayoutInflater.from(this)
-        val memberLayout = inflater.inflate(R.layout.member_role_item, binding.memberContainer, false) as LinearLayout
-        val memberIdInput = memberLayout.findViewById<TextInputEditText>(R.id.member_id_input)
-        val memberRoleDropdown = memberLayout.findViewById<AutoCompleteTextView>(R.id.member_role_dropdown)
+        val memberLayout = inflater.inflate(R.layout.assignee_item, binding.assigneeContainer, false) as LinearLayout
+        val memberIdInput = memberLayout.findViewById<TextInputEditText>(R.id.assignee_input)
 
-        memberRoleDropdown.setAdapter(arrayAdapter)
-        binding.memberContainer.addView(memberLayout)
-        memberLayouts.add(Pair(memberIdInput, memberRoleDropdown))
+        binding.assigneeContainer.addView(memberLayout)
+        memberLayouts.add(memberIdInput)
     }
 
     private fun observeViewModel() {
-        viewModel.projectCreated.observe(this) { projectId ->
+        viewModel.taskCreated.observe(this) { taskId ->
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.putExtra("projectId", projectId)
+            intent.putExtra("taskId", taskId)
             startActivity(intent)
             finish()
+        }
+        viewModel.project.observe(this) { project ->
+            this.members = project.members
         }
     }
 
     private fun createProject() {
-        val projectName = binding.projectNameInput.text.toString()
-        val projectDescription = binding.projectDescriptionInput.text.toString()
+        val taskName = binding.taskNameInput.text.toString()
+        val taskDescription = binding.taskDescriptionInput.text.toString()
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val createdOn = formatter.parse(formatter.format(Date()))
-        val deadline = formatter.parse(binding.projectDeadlineInput.text.toString())
-        val memberMap = HashMap<String, String>()
+        val deadline = formatter.parse(binding.taskDeadlineInput.text.toString())
         val members = mutableListOf<String>()
-        for (pair in memberLayouts) {
-            val memberId = pair.first.text.toString().trim()
-            val memberRole = pair.second.text.toString().trim()
-            if (memberId.isNotEmpty() && memberRole.isNotEmpty() && memberId !in members) {
-                memberMap[memberId] = memberRole.lowercase()
+        for (member in memberLayouts) {
+            val memberId = member.text.toString().trim()
+            if (memberId.isNotEmpty() && memberId !in members && memberId in this.members) {
                 members.add(memberId)
             }
         }
-        val projectData: HashMap<String, Any> = hashMapOf(
-            "name" to projectName,
-            "description" to projectDescription,
+        val taskData: HashMap<String, Any> = hashMapOf(
+            "name" to taskName,
+            "description" to taskDescription,
             "deadline" to deadline,
-            "members" to members,
-            "memberRoles" to memberMap,
             "createdOn" to createdOn,
+            "completed" to false,
+            "assignees" to members,
+            "projectId" to projectId
         )
-        viewModel.createProject(projectData)
+        viewModel.createTask(taskData)
     }
 }

@@ -30,5 +30,4 @@
                 android:inputType="none"
                 android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
-
 </LinearLayout>

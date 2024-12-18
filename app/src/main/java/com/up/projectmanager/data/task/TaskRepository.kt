@@ -34,6 +34,21 @@ class TaskRepository {
             )
         }
     }
+
+    suspend fun createTask(task: HashMap<String, Any>): String {
+        val documentSnapshot = db.collection("tasks")
+            .add(task)
+            .await()
+        return documentSnapshot.id
+    }
+
+    suspend fun markTaskAsComplete(taskId: String) {
+        db.collection("tasks")
+            .document(taskId)
+            .update("completed", true)
+            .await()
+    }
+
     suspend fun getTask(taskId: String): Task {
         val documentSnapshot = db.collection("tasks")
             .document(taskId)
