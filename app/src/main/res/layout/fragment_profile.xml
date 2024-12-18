@@ -9,7 +9,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="1.0" android:padding="4dp">
 
         <TextView
                 android:text="Your Profile"
@@ -30,7 +31,7 @@
                 android:layout_marginTop="32dp">
             <TextView
                     android:textSize="20sp"
-                    android:layout_width="150dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/first_name_label"
                     android:text="First Name:"/>
@@ -49,7 +50,7 @@
                 tools:layout_editor_absoluteX="0dp" android:layout_marginTop="32dp">
             <TextView
                     android:textSize="20sp"
-                    android:layout_width="150dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/last_name_label"
                     android:text="Last Name:"/>
@@ -65,10 +66,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout4" tools:layout_editor_absoluteX="0dp"
-                android:layout_marginTop="32dp">
+                android:layout_marginTop="32dp" android:id="@+id/linearLayout">
             <TextView
                     android:textSize="20sp"
-                    android:layout_width="150dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/email_label"
                     android:text="Email:"/>
@@ -79,6 +80,34 @@
                     android:id="@+id/email"
                     android:text=""/>
         </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_layout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                android:layout_marginTop="32dp" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                    android:textSize="20sp"
+                    android:layout_width="63dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/id_label"
+                    android:text="ID:"/>
+            <TextView
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/id"
+                    android:text=""/>
+        </LinearLayout>
+        <Button
+                android:text="Sign Out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/signout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="80dp"
+                app:layout_constraintHorizontal_bias="0.498"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/loading_spinner"

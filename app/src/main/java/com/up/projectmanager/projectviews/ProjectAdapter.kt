@@ -28,11 +28,9 @@ class ProjectAdapter(val projectList: MutableList<Project> = mutableListOf()):
         val project = projectList[position]
         holder.projectName.text = project.name
         holder.projectDescription.text = project.description
-        var doneTasks = 0
-        for (task in project.tasks) {
-            if (task.completed) doneTasks++
-        }
-        holder.projectProgress.progress = if (project.tasks.isNotEmpty()) doneTasks*100/project.tasks.size else 0
+        var completedTasks = 0
+        for (task in project.tasks) if (task.completed) completedTasks++
+        holder.projectProgress.progress = if (project.tasks.isEmpty()) 0 else (completedTasks*100)/project.tasks.size
         holder.projectDeadline.text = "Deadline: ${project.deadline}"
         holder.itemView.setOnClickListener{
             val intent = Intent(holder.itemView.context, ProjectDetailsActivity::class.java)

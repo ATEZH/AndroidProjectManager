@@ -18,19 +18,19 @@ class ProjectViewModel: ViewModel() {
     private val auth = FirebaseAuth.getInstance()
 
     private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> = _loading
+    val loading: LiveData<Boolean> get() = _loading
 
     private val _project = MutableLiveData<Project>()
-    val project: LiveData<Project> = _project
+    val project: LiveData<Project> get() = _project
 
     private val _members = MutableLiveData<List<User>>()
-    val members: LiveData<List<User>> = _members
+    val members: LiveData<List<User>> get() = _members
 
     private val _tasks = MutableLiveData<List<Task>>()
-    val tasks: LiveData<List<Task>> = _tasks
+    val tasks: LiveData<List<Task>> get() = _tasks
 
     private val _projectCreated = MutableLiveData<String>()
-    val projectCreated: LiveData<String> = _projectCreated
+    val projectCreated: LiveData<String> get() = _projectCreated
 
     fun setProjectId(projectId: String) {
         this.projectId = projectId
@@ -42,8 +42,8 @@ class ProjectViewModel: ViewModel() {
             try {
                 val project = projectRepository.getProject(projectId)
                 val members = projectRepository.fetchProjectMembers(project.members)
-                val tasks = projectRepository.fetchProjectTasks(project.id)
                 _members.postValue(members)
+                val tasks = projectRepository.fetchProjectTasks(project.id)
                 _tasks.postValue(tasks)
                 _project.postValue(project)
             } catch(e: Exception) {

@@ -1,5 +1,6 @@
 package com.up.projectmanager.data.project
 
+import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -49,6 +50,7 @@ class ProjectRepository {
         return querySnapshot.map { document ->
             val members = document["members"] as ArrayList<String>
             val memberRoles = document["memberRoles"] as HashMap<String, String>
+            val tasks = fetchProjectTasks(document.id)
             Project(
                 id = document.id,
                 name = document.getString("name") ?: "",
@@ -57,13 +59,13 @@ class ProjectRepository {
                 deadline = timestampConverter.timestampToString(document["deadline"] as Timestamp),
                 members = members,
                 memberRoles = memberRoles,
-                tasks = mutableListOf()
+                tasks = tasks
             )
         }
     }
 
     suspend fun fetchProjectTasks(projectId: String): List<Task> {
-        val querySnapshot = db.collection("projects")
+        val querySnapshot = db.collection("tasks")
             .whereEqualTo("projectId", projectId)
             .get()
             .await()

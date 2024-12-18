@@ -73,7 +73,7 @@ class TaskDetailsActivity : AppCompatActivity() {
     private fun showProjectDetails(task: Task) {
         taskName.text = task.name
         projectName.text = "Project: ${project.name}"
-        taskDescription.text = project.description
+        taskDescription.text = task.description
         if (task.completed) {
             taskStatus.trackColor = R.color.green
             taskStatus.progress = 100

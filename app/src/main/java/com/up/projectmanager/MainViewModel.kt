@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.up.projectmanager.data.project.Project
 import com.up.projectmanager.data.project.ProjectRepository
 import com.up.projectmanager.data.task.Task
@@ -18,6 +19,8 @@ class MainViewModel : ViewModel() {
     private val taskRepository = TaskRepository()
     private val projectRepository = ProjectRepository()
     private val userRepository = UserRepository()
+
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val _projectsLoading = MutableLiveData<Boolean>()
     val projectsLoading: LiveData<Boolean> get() = _projectsLoading
@@ -37,10 +40,18 @@ class MainViewModel : ViewModel() {
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> get() = _user
 
+    private val _signedIn = MutableLiveData<Boolean>()
+    val signedIn: LiveData<Boolean> get() = _signedIn
+
     init {
         getUser()
         fetchProjects()
         fetchUserTasks()
+    }
+
+    fun signOut() {
+        auth.signOut()
+        _signedIn.postValue(false)
     }
 
     fun fetchProjects() {

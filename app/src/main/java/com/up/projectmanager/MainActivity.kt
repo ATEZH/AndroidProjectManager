@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.up.projectmanager.entryviews.SignInActivity
 import com.up.projectmanager.projectviews.CreateProjectActivity
 import com.up.projectmanager.projectviews.ProjectsFragment
 import com.up.projectmanager.taskviews.TasksFragment
 
 class MainActivity : AppCompatActivity() {
 
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var loadingSpinner: CircularProgressIndicator
     private lateinit var fragmentContainer: FrameLayout
     private lateinit var bottomMenu: BottomNavigationView
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initializeUI()
+        observeViewModel()
     }
 
     private fun initializeUI() {
@@ -67,6 +70,16 @@ class MainActivity : AppCompatActivity() {
             goToCreateTaskOrProject()
         }
 
+    }
+
+    private fun observeViewModel() {
+        viewModel.signedIn.observe(this) { signedIn ->
+            if (!signedIn) {
+                val myIntent = Intent(this, SignInActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(myIntent)
+            }
+        }
     }
 
     private fun loadFragment(fragment: Fragment) {

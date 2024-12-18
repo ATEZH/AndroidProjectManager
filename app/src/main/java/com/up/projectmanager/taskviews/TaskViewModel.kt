@@ -16,16 +16,16 @@ class TaskViewModel: ViewModel() {
     private val taskRepository = TaskRepository()
 
     private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> = _loading
+    val loading: LiveData<Boolean> get() = _loading
 
     private val _project = MutableLiveData<Project>()
-    val project: LiveData<Project> = _project
+    val project: LiveData<Project> get() = _project
 
     private val _assignees = MutableLiveData<List<User>>()
-    val assignees: LiveData<List<User>> = _assignees
+    val assignees: LiveData<List<User>> get() = _assignees
 
     private val _task = MutableLiveData<Task>()
-    val task: LiveData<Task> = _task
+    val task: LiveData<Task> get() = _task
 
     fun setTaskId(taskId: String) {
         this.taskId = taskId
